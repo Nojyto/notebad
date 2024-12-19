@@ -10,10 +10,12 @@
 - **TypeScript**: Ensures type safety and improved development experience.
 - **Build and Distribution**: Cross-platform support for macOS, Linux, and Windows using `electron-builder`.
 
-## Requirements
+## File Structure
 
-- **Node.js**: v16 or higher
-- **npm**: v7 or higher
+- **`electron/`**: Backend code for the Electron app.
+- **`ui/`**: React frontend files.
+- **`dist-electron/`**: Output directory for the Electron build.
+- **`dist-react/`**: Output directory for the React build.
 
 ## Setup and Usage
 
@@ -32,85 +34,34 @@
    npm install
    ```
 
----
-
 ### Development
 
-**Start the React Development Server**:
-
 ```bash
-npm run dev:react
+npm run dev
 ```
 
-This starts the Vite development server for the React frontend.
-
-**Start the Electron Application**:
-
-```bash
-npm run dev:electron
-```
-
-Runs the Electron app using the compiled React build.
-
----
-
-### Build
-
-**Build the Full Application**:
+### Build the Full Application
 
 ```bash
 npm run build
 ```
 
-This command compiles both the React frontend and the Electron backend.
-
-**Transpile Electron**:
-
-```bash
-npm run transpile:electron
-```
-
-Compiles only the Electron backend code.
-
----
-
 ### Distribution
 
-**Create Platform-Specific Builds**:
+Create Platform-Specific Builds:
 
 - **macOS**: `npm run dist:mac`
 - **Linux**: `npm run dist:linux`
 - **Windows**: `npm run dist:win`
 
-These commands package the application for the respective platforms using `electron-builder`.
-
----
-
-### Additional Commands
-
-**Lint Code**:
+### Check for any linting issues
 
 ```bash
 npm run lint
 ```
 
-Checks the code for any linting issues.
-
-**Preview Production Build**:
+### Preview Production Build
 
 ```bash
 npm run preview
 ```
-
-Serves the React build for a final check before packaging.
-
----
-
-### File Structure
-
-- **`electron/`**: Backend code for the Electron app.
-- **`ui/`**: React frontend files.
-- **`dist-electron/`**: Output directory for the Electron build.
-- **`dist-react/`**: Output directory for the React build.
-
----
