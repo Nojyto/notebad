@@ -1,41 +1,56 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
 
 function App() {
   const [count, setCount] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    // @ts-nocheck
-    window.electron.subscribeStatistics((statistics) => console.log(statistics));
-  }, []);
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
 
   return (
-    <>
-      <div className="flex justify-center items-center h-screen">
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img
-            src={reactLogo}
-            alt="React logo"
-            className="h-24 p-6 transition filter duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] logo react:hover:drop-shadow-[0_0_2em_#61dafbaa]"
-          />
-        </a>
-      </div>
-      <h1 className="text-4xl font-bold leading-tight text-center">Vi + React</h1>
-      <div className="card p-8 mx-auto text-center">
+    <div className="h-screen bg-background text-text flex flex-col items-center justify-center p-6">
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-bold text-primary">Simplistic Note</h1>
+        <p className="text-secondary mt-2">A clean and simple experience</p>
+      </header>
+
+      <main className="flex flex-col items-center w-full max-w-lg">
         <button
-          onClick={() => setCount((count) => count + 1)}
-          className="px-6 py-3 text-lg font-medium text-white bg-gray-800 border rounded-lg hover:border-customButtonHover transition duration-200"
+          onClick={toggleTheme}
+          className="w-full py-3 mb-4 text-lg font-medium bg-primary text-white rounded hover:bg-accent transition"
         >
-          count is {count}
+          Switch to {isDarkMode ? 'Light' : 'Dark'} Mode
         </button>
-        <p className="mt-4 text-gray-500">
-          Edit <code className="font-mono text-sm text-gray-400">src/App.tsx</code> and save to test HMR
+
+        <div className="text-center w-full mb-6">
+          <button
+            onClick={() => setCount((count) => count + 1)}
+            className="w-full py-3 text-lg font-medium bg-secondary text-white rounded hover:bg-accent transition"
+          >
+            Count is {count}
+          </button>
+        </div>
+
+        <p className="text-center text-secondary">
+          Edit <code className="font-mono text-accent">App.tsx</code> and save to test HMR.
         </p>
-      </div>
-      <p className="mt-8 text-gray-400 text-center read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </main>
+
+      <footer className="mt-auto text-center">
+        <p className="text-sm text-secondary">
+          Made with ❤️ using React & TailwindCSS
+        </p>
+      </footer>
+    </div>
   );
 }
 
