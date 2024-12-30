@@ -1,67 +1,30 @@
+# React + TypeScript + Vite
 
-# Notebad
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**Notebad** is a simple application combining Electron and React to create a desktop app with a modern UI. The project uses TypeScript, Vite, and Electron for a smooth development and build process.
+Currently, two official plugins are available:
 
-## Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **React Frontend**: A responsive and interactive UI built with React and styled with CSS.
-- **Electron Backend**: A lightweight desktop application framework for cross-platform compatibility.
-- **TypeScript**: Ensures type safety and improved development experience.
-- **Build and Distribution**: Cross-platform support for macOS, Linux, and Windows using `electron-builder`.
+## Expanding the ESLint configuration
 
-## File Structure
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- **`electron/`**: Backend code for the Electron app.
-- **`ui/`**: React frontend files.
-- **`dist-electron/`**: Output directory for the Electron build.
-- **`dist-react/`**: Output directory for the React build.
+- Configure the top-level `parserOptions` property like this:
 
-## Setup and Usage
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-repo/notebad.git
-   cd notebad
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-### Development
-
-```bash
-npm run dev
+```js
+export default {
+  // other rules...
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
+}
 ```
 
-### Build the Full Application
-
-```bash
-npm run build
-```
-
-### Distribution
-
-Create Platform-Specific Builds:
-
-- **macOS**: `npm run dist:mac`
-- **Linux**: `npm run dist:linux`
-- **Windows**: `npm run dist:win`
-
-### Check for any linting issues
-
-```bash
-npm run lint
-```
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
