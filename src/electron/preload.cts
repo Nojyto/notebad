@@ -5,4 +5,4 @@ contextBridge.exposeInMainWorld("electron", {
   writeFile: (filePath: string, content: string) =>
     ipcRenderer.invoke("write-file", filePath, content),
   openFileDialog: () => ipcRenderer.invoke("open-file-dialog"),
-});
+} satisfies Window["electron"]);
