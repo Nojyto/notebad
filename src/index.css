@@ -3,21 +3,50 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --text: 20 18% 7%;
-    --background: 0 20% 99%;
-    --primary: 25 18% 52%;
-    --secondary: 127 19% 73%;
-    --accent: 159 18% 64%;
+  :root  {
+    --background: 121 100% 100%;
+    --foreground: 121 5% 10%;
+    --card: 121 50% 100%;
+    --card-foreground: 121 5% 15%;
+    --popover: 121 100% 100%;
+    --popover-foreground: 121 100% 10%;
+    --primary: 121 97% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 121 30% 90%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 83 30% 95%;
+    --muted-foreground: 121 5% 40%;
+    --accent: 83 30% 90%;
+    --accent-foreground: 121 5% 15%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 121 5% 100%;
+    --border: 121 30% 82%;
+    --input: 121 30% 50%;
+    --ring: 121 97% 33%;
+    --radius: 0rem;
   }
-  .dark {
-    --text: 20 17% 93%;
-    --background: 0 20% 1%;
-    --primary: 26 18% 48%;
-    --secondary: 127 19% 27%;
-    --accent: 160 18% 36%;
+  .dark  {
+    --background: 121 50% 10%;
+    --foreground: 121 5% 100%;
+    --card: 121 50% 10%;
+    --card-foreground: 121 5% 100%;
+    --popover: 121 50% 5%;
+    --popover-foreground: 121 5% 100%;
+    --primary: 121 97% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 121 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 83 30% 25%;
+    --muted-foreground: 121 5% 65%;
+    --accent: 83 30% 25%;
+    --accent-foreground: 121 5% 95%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 121 5% 100%;
+    --border: 121 30% 50%;
+    --input: 121 30% 50%;
+    --ring: 121 97% 33%;
+    --radius: 0rem;
   }
-
   body {
     @apply font-body;
   }
