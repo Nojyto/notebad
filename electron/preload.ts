@@ -1,6 +1,5 @@
-import { ipcRenderer, contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron';
 
-// --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {
     const [channel, listener] = args
@@ -18,7 +17,11 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     const [channel, ...omit] = args
     return ipcRenderer.invoke(channel, ...omit)
   },
+});
 
-  // You can expose other APTs you need here.
-  // ...
-})
+contextBridge.exposeInMainWorld('api', {
+  readFile: (filePath: string) => ipcRenderer.invoke('read-file', filePath),
+  saveFile: (filePath: string, content: string) => ipcRenderer.invoke('save-file', { filePath, content }),
+  openFile: () => ipcRenderer.invoke('show-open-dialog').then((result) => result.success ? result.filePath : null),
+  createNewFile: () => ipcRenderer.invoke('create-new-file').then((result) => result.success ? result.filePath : null),
+});
