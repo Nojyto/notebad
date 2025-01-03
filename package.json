@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "notebad",
   "author": "Jeff",
   "description": "A simple app",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "lucide-react": "^0.469.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.4.0",

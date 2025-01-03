@@ -1,7 +1,7 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import EditorPage from './pages/Editor';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>

@@ -28,7 +28,7 @@ export default {
         ring: 'hsl(var(--ring))',
       },
       borderRadius: {
-        DEFAULT: 'var(--radius)', // Use CSS variable for global radius
+        DEFAULT: 'var(--radius)',
       },
       fontSize: {
         sm: '0.750rem',
@@ -49,6 +49,5 @@ export default {
       },
     },
   },
-  darkMode: 'class', // Enable dark mode via class
   plugins: [],
 };
