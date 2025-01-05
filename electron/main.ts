@@ -10,18 +10,18 @@ export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
 let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+    icon: path.join(process.env.VITE_PUBLIC, 'desktop-icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
   })
-
   
   if (VITE_DEV_SERVER_URL) {
     // Test active push message to Renderer-process.
