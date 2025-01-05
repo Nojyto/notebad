@@ -11,11 +11,11 @@ export const useEditorShortcuts = ({ saveTab, closeTab, activeIndex }: EditorSho
     const handleKeyPress = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
-        saveTab(activeIndex); // Save the active tab
+        saveTab(activeIndex);
       }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w') {
         e.preventDefault();
-        closeTab(activeIndex); // Close the active tab
+        closeTab(activeIndex);
       }
     };
 

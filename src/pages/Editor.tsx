@@ -1,6 +1,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useCallback, useRef, useState } from 'react';
-import ThemeToggleButton from '../components/ThemeToggleButton';
+import AppMenu from '../components/AppMenu';
 import { useEditorShortcuts } from '../hooks/useEditorShortcuts';
 
 interface TabData {
@@ -89,17 +89,28 @@ const EditorPage = () => {
     }
   };
 
+  const handleMenuClick = (menuItem: string) => {
+    switch (menuItem) {
+      case 'New File':
+        addTab();
+        break;
+      case 'Open File':
+        openFile();
+        break;
+      case 'Save File':
+        saveTab(activeIndex);
+        break;
+      case 'Close Tab':
+        closeTab(activeIndex);
+        break;
+      default:
+        console.error(`Unknown menu item: ${menuItem}`);
+    }
+  };
+
   return (
-    <div className="flex flex-col min-h-screen p-4 bg-background text-foreground">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-heading ml-5">Code Editor</h1>
-        <div className="flex gap-2 mr-5">
-          <button onClick={openFile} className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/80">
-            Open File
-          </button>
-          <ThemeToggleButton />
-        </div>
-      </div>
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <AppMenu handleMenuClick={handleMenuClick} />
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
         <div className="flex items-center border-border">
           <div
@@ -147,16 +158,16 @@ const EditorPage = () => {
         <TabPanels className="flex-1 flex flex-col h-full">
           {tabs.map((tab, index) => (
             <TabPanel
-            key={tab.id}
-            className="flex-1 flex flex-col bg-popover text-popover-foreground rounded"
-          >
-            <textarea
-              value={tab.content}
-              onChange={(e) => updateTabContent(index, e.target.value)}
-              className="flex-1 w-full h-full border border-border rounded p-2 bg-card text-foreground resize-none focus:outline-none"
-              placeholder="Start typing here..."
-            />
-          </TabPanel>
+              key={tab.id}
+              className="flex-1 flex flex-col bg-popover text-popover-foreground rounded"
+            >
+              <textarea
+                value={tab.content}
+                onChange={(e) => updateTabContent(index, e.target.value)}
+                className="flex-1 w-full h-full border border-border rounded p-2 bg-card text-foreground resize-none focus:outline-none"
+                placeholder="Start typing here..."
+              />
+            </TabPanel>
           ))}
         </TabPanels>
       </TabGroup>
