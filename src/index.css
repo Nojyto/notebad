@@ -1,53 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:wght@400;700&family=Macondo&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto%20Znamenny%20Musical%20Notation:700|Noto%20Znamenny%20Musical%20Notation:400');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+
   :root  {
-    --background: 121 100% 100%;
-    --foreground: 121 5% 10%;
-    --card: 121 50% 100%;
-    --card-foreground: 121 5% 15%;
-    --popover: 121 100% 100%;
-    --popover-foreground: 121 100% 10%;
-    --primary: 121 97% 33%;
+    --background: 360 16% 95%;
+    --foreground: 360 5% 6%;
+    --card: 360 16% 90%;
+    --card-foreground: 360 5% 10%;
+    --popover: 360 16% 95%;
+    --popover-foreground: 360 95% 6%;
+    --primary: 360 77% 44%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 121 30% 90%;
+    --secondary: 360 16% 70%;
     --secondary-foreground: 0 0% 0%;
-    --muted: 83 30% 95%;
-    --muted-foreground: 121 5% 40%;
-    --accent: 83 30% 90%;
-    --accent-foreground: 121 5% 15%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 121 5% 100%;
-    --border: 121 30% 82%;
-    --input: 121 30% 50%;
-    --ring: 121 97% 33%;
-    --radius: 0rem;
+    --muted: 322 16% 85%;
+    --muted-foreground: 360 5% 35%;
+    --accent: 322 16% 80%;
+    --accent-foreground: 360 5% 10%;
+    --destructive: 0 50% 30%;
+    --destructive-foreground: 360 5% 90%;
+    --border: 360 20% 50%;
+    --input: 360 20% 18%;
+    --ring: 360 77% 44%;
+    --radius: 0.75rem;
   }
   .dark  {
-    --background: 121 50% 10%;
-    --foreground: 121 5% 100%;
-    --card: 121 50% 10%;
-    --card-foreground: 121 5% 100%;
-    --popover: 121 50% 5%;
-    --popover-foreground: 121 5% 100%;
-    --primary: 121 97% 33%;
+    --background: 360 16% 6%;
+    --foreground: 360 5% 90%;
+    --card: 360 16% 6%;
+    --card-foreground: 360 5% 90%;
+    --popover: 360 16% 5%;
+    --popover-foreground: 360 5% 90%;
+    --primary: 360 77% 44%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 121 30% 20%;
+    --secondary: 360 16% 10%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 83 30% 25%;
-    --muted-foreground: 121 5% 65%;
-    --accent: 83 30% 25%;
-    --accent-foreground: 121 5% 95%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 121 5% 100%;
-    --border: 121 30% 50%;
-    --input: 121 30% 50%;
-    --ring: 121 97% 33%;
-    --radius: 0rem;
+    --muted: 322 16% 15%;
+    --muted-foreground: 360 5% 60%;
+    --accent: 322 16% 15%;
+    --accent-foreground: 360 5% 90%;
+    --destructive: 0 50% 30%;
+    --destructive-foreground: 360 5% 90%;
+    --border: 360 20% 18%;
+    --input: 360 20% 18%;
+    --ring: 360 77% 44%;
+    --radius: 0.75rem;
   }
   body {
     @apply font-body;

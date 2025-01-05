@@ -40,8 +40,8 @@ export default {
         '5xl': '4.210rem',
       },
       fontFamily: {
-        heading: ['Macondo', 'cursive'],
-        body: ['Exo', 'sans-serif'],
+        heading: ['Noto Znamenny Musical Notation', 'cursive'],
+        body: ['Noto Znamenny Musical Notation', 'sans-serif'],
       },
       fontWeight: {
         normal: '400',

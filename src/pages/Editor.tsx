@@ -89,14 +89,23 @@ const EditorPage = () => {
             <Tab
               key={tab.id}
               className={({ selected }) =>
-                `px-4 py-2 rounded-t ${selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}`
+                `px-4 py-2 rounded-t ${selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                }`
               }
             >
               <div className="flex items-center space-x-2">
                 <span>{tab.title}</span>
-                <button onClick={(e) => { e.stopPropagation(); closeTab(index); }} className="text-destructive">
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeTab(index);
+                  }}
+                  className="text-destructive cursor-pointer"
+                  role="button"
+                  aria-label="Close Tab"
+                >
                   ✕
-                </button>
+                </span>
               </div>
             </Tab>
           ))}
