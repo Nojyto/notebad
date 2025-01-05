@@ -1,6 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ThemeToggleButton from '../components/ThemeToggleButton';
+import { useEditorShortcuts } from '../hooks/useEditorShortcuts';
 
 interface TabData {
   id: string;
@@ -15,6 +16,14 @@ const EditorPage = () => {
     { id: crypto.randomUUID(), title: 'Untitled 1', content: '', isSaved: true },
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const tabListRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (e: React.WheelEvent) => {
+    if (e.deltaY !== 0 && tabListRef.current) {
+      tabListRef.current.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }
+  };
 
   const addTab = useCallback((title: string = `Untitled ${tabs.length + 1}`, content: string = '', filePath?: string) => {
     const newTab: TabData = { id: crypto.randomUUID(), title, content, filePath, isSaved: true };
@@ -22,11 +31,11 @@ const EditorPage = () => {
     setActiveIndex(tabs.length);
   }, [tabs.length]);
 
-  const closeTab = (index: number) => {
+  const closeTab = useCallback((index: number) => {
     const updatedTabs = tabs.filter((_, i) => i !== index);
     setTabs(updatedTabs);
     setActiveIndex(index > 0 ? index - 1 : 0);
-  };
+  }, [tabs]);
 
   const updateTabContent = (index: number, content: string) => {
     const updatedTabs = tabs.map((tab, i) =>
@@ -64,29 +73,7 @@ const EditorPage = () => {
     }
   }, [tabs, promptSaveAs]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      tabs.forEach((tab, index) => {
-        if (!tab.isSaved && tab.filePath) {
-          saveTab(index);
-        }
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [tabs, saveTab]);
-
-  const handleKeyPress = useCallback((e: KeyboardEvent) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-      e.preventDefault();
-      saveTab(activeIndex);
-    }
-  }, [activeIndex, saveTab]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [handleKeyPress]);
+  useEditorShortcuts({ saveTab, closeTab, activeIndex });
 
   const openFile = async () => {
     const filePath = await window.api.openFile();
@@ -114,37 +101,49 @@ const EditorPage = () => {
         </div>
       </div>
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
-        <TabList className="flex space-x-2 px-5">
-          {tabs.map((tab, index) => (
-            <Tab
-              key={tab.id}
-              className={({ selected }) =>
-                `px-4 py-2 rounded-t ${selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}`
-              }
-            >
-              <div className="flex items-center space-x-2">
-                <span>
-                  {tab.title}
-                  {!tab.isSaved && <span className="text-red-500 ml-1">●</span>}
-                </span>
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeTab(index);
-                  }}
-                  className="text-destructive cursor-pointer"
-                  role="button"
-                  aria-label="Close Tab"
+        <div className="flex items-center border-b border-border">
+          <div
+            ref={tabListRef}
+            className="flex-1 overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+            onWheel={handleScroll}
+          >
+            <TabList className="flex space-x-2 px-5">
+              {tabs.map((tab, index) => (
+                <Tab
+                  key={tab.id}
+                  className={({ selected }) =>
+                    `flex-shrink-0 w-36 px-2 py-2 text-sm rounded-t ${
+                      selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                    }`
+                  }
                 >
-                  ✕
-                </span>
-              </div>
-            </Tab>
-          ))}
-          <button onClick={() => addTab()} className="px-4 py-2 bg-accent text-accent-foreground rounded-t">
+                  <div className="flex items-center justify-between space-x-2">
+                    <span className="truncate max-w-[8rem]">
+                      {tab.title.length > 20
+                        ? `${tab.title.slice(0, 10)}...${tab.title.slice(-10)}`
+                        : tab.title}
+                      {!tab.isSaved && <span className="text-red-500 ml-1">●</span>}
+                    </span>
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        closeTab(index);
+                      }}
+                      className="text-destructive cursor-pointer"
+                      role="button"
+                      aria-label="Close Tab"
+                    >
+                      ✕
+                    </span>
+                  </div>
+                </Tab>
+              ))}
+            </TabList>
+          </div>
+          <button onClick={() => addTab()} className="w-8 h-8 ml-2 bg-accent text-accent-foreground rounded-full flex items-center justify-center">
             +
           </button>
-        </TabList>
+        </div>
         <TabPanels className="flex-1 flex flex-col h-full">
           {tabs.map((tab, index) => (
             <TabPanel
