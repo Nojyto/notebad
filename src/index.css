@@ -56,3 +56,11 @@
     @apply font-heading;
   }
 }
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.undraggable {
+  -webkit-app-region: no-drag !important;
+}

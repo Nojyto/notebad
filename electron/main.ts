@@ -21,6 +21,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
+    frame: false,
+    focusable: true,
   })
   
   if (VITE_DEV_SERVER_URL) {
@@ -48,6 +50,22 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(createWindow)
+
+ipcMain.on('minimize', () => {
+  win?.minimize();
+});
+
+ipcMain.on('maximize', () => {
+  if (win?.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win?.maximize();
+  }
+});
+
+ipcMain.on('close', () => {
+  win?.close();
+});
 
 ipcMain.handle('read-file', async (_, filePath: string) => {
   try {
