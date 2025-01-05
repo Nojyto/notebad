@@ -105,8 +105,8 @@ const EditorPage = () => {
   return (
     <div className="flex flex-col min-h-screen p-4 bg-background text-foreground">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-heading">Code Editor</h1>
-        <div className="flex gap-2">
+        <h1 className="text-2xl font-heading ml-5">Code Editor</h1>
+        <div className="flex gap-2 mr-5">
           <button onClick={openFile} className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/80">
             Open File
           </button>
@@ -114,7 +114,7 @@ const EditorPage = () => {
         </div>
       </div>
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
-        <TabList className="flex space-x-2 border-b border-border">
+        <TabList className="flex space-x-2 px-5">
           {tabs.map((tab, index) => (
             <Tab
               key={tab.id}
@@ -147,14 +147,17 @@ const EditorPage = () => {
         </TabList>
         <TabPanels className="flex-1 flex flex-col h-full">
           {tabs.map((tab, index) => (
-            <TabPanel key={tab.id} className="flex-1 flex flex-col p-4 border border-border bg-popover text-popover-foreground rounded">
-              <textarea
-                value={tab.content}
-                onChange={(e) => updateTabContent(index, e.target.value)}
-                className="flex-1 w-full h-full border rounded p-2 bg-card text-foreground resize-none"
-                placeholder="Start typing here..."
-              />
-            </TabPanel>
+            <TabPanel
+            key={tab.id}
+            className="flex-1 flex flex-col p-4 border border-border bg-popover text-popover-foreground rounded focus-within:ring-2 focus-within:ring-ring focus-within:border-ring"
+          >
+            <textarea
+              value={tab.content}
+              onChange={(e) => updateTabContent(index, e.target.value)}
+              className="flex-1 w-full h-full border border-border rounded p-2 bg-card text-foreground resize-none focus:outline-none"
+              placeholder="Start typing here..."
+            />
+          </TabPanel>
           ))}
         </TabPanels>
       </TabGroup>
