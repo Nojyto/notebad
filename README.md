@@ -1,30 +1,78 @@
-# React + TypeScript + Vite
+# **Notebad - Simple Text Editor**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Notebad** is a simple text editor built using **Electron**, **React**, and **TailwindCSS**. The application features a custom draggable menu bar, tabbed file editing, and basic window controls. This project allows you to create, open, edit, and save text files seamlessly, with a focus on simplicity and responsiveness.
 
-Currently, two official plugins are available:
+## **Development Setup**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Follow these steps to set up the development environment and run the project locally:
 
-## Expanding the ESLint configuration
+### **1. Clone the Repository**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+git clone <repository-url>
+cd <repository-folder>
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### **2. Install Dependencies**
+
+Make sure you have Node.js and npm installed. Then, run:
+
+```bash
+npm install
+```
+
+### **3. Start the Development Server**
+
+To start the development environment:
+
+```bash
+npm run dev
+```
+
+- This will open the app in a development Electron window with live reload.
+
+## **Building the Application**
+
+The build process generates binaries for your operating system. The default OS is detected automatically.
+
+| Command        | Description                                 |
+| --------------- | ------------------------------------------- |
+| `npm run build` | Build the app for the current operating system. |
+| `npm run build:win` | Build the app for Windows. |
+| `npm run build:mac` | Build the app for macOS. |
+| `npm run build:linux` | Build the app for Linux. |
+
+## **File Structure Overview**
+
+```bash
+src/
+├── components/        # Reusable UI components
+├── hooks/             # Custom React hooks (e.g., shortcuts)
+├── pages/             # Main pages (e.g., EditorPage)
+├── index.css          # TailwindCSS styles
+└── main.tsx           # App entry point
+electron/
+├── main.ts            # Electron main process (app setup)
+└── preload.ts         # Preload script for exposing APIs
+```
+
+---
+
+## **Technologies Used**
+
+- **Electron**: Desktop application framework.
+- **React**: Frontend library for UI.
+- **TailwindCSS**: Utility-first CSS framework.
+- **TypeScript**: Static typing for better code quality.
+
+## **Contributing**
+
+Feel free to contribute by submitting issues or creating pull requests. All contributions are welcome!
+
+## **License**
+
+This project is licensed under the MIT License.
+
+---
+
+Enjoy using **Notebad**! 🎉

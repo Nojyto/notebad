@@ -1,6 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AppMenu from '../components/AppMenu';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { useEditorShortcuts } from '../hooks/useEditorShortcuts';
 
 interface TabData {
@@ -11,31 +12,69 @@ interface TabData {
   isSaved: boolean;
 }
 
+const getFileName = (filePath: string) => filePath.split(/[/\\]/).pop() || 'Untitled';
+
 const EditorPage = () => {
   const [tabs, setTabs] = useState<TabData[]>([
     { id: crypto.randomUUID(), title: 'Untitled 1', content: '', isSaved: true },
   ]);
+  const [untitledCount, setUntitledCount] = useState(2);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [spellCheckEnabled, setSpellCheckEnabled] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [pendingTabIndex, setPendingTabIndex] = useState<number | null>(null);
   const tabListRef = useRef<HTMLDivElement>(null);
+  const textAreaRefs = useRef<Map<string, HTMLTextAreaElement>>(new Map());
 
   const handleScroll = (e: React.WheelEvent) => {
     if (e.deltaY !== 0 && tabListRef.current) {
       tabListRef.current.scrollLeft += e.deltaY;
-      e.preventDefault();
     }
   };
 
-  const addTab = useCallback((title: string = `Untitled ${tabs.length + 1}`, content: string = '', filePath?: string) => {
-    const newTab: TabData = { id: crypto.randomUUID(), title, content, filePath, isSaved: true };
+  const addTab = useCallback((title: string = `Untitled ${untitledCount}`, content: string = '', filePath?: string) => {
+    const newTab: TabData = {
+      id: crypto.randomUUID(),
+      title: filePath ? getFileName(filePath) : title,
+      content,
+      filePath,
+      isSaved: true,
+    };
     setTabs((prevTabs) => [...prevTabs, newTab]);
+    setUntitledCount((prev) => prev + 1);
     setActiveIndex(tabs.length);
-  }, [tabs.length]);
+
+    requestAnimationFrame(() => {
+      const newTabRef = textAreaRefs.current.get(newTab.id);
+      if (newTabRef) {
+        newTabRef.focus();
+      }
+    });
+  }, [tabs.length, untitledCount]);
 
   const closeTab = useCallback((index: number) => {
-    const updatedTabs = tabs.filter((_, i) => i !== index);
-    setTabs(updatedTabs);
-    setActiveIndex(index > 0 ? index - 1 : 0);
+    const tabToClose = tabs[index];
+    if (!tabToClose.isSaved) {
+      setDialogOpen(true);
+      setPendingTabIndex(index);
+      return;
+    }
+    setTabs((prevTabs) => prevTabs.filter((_, i) => i !== index));
+    setActiveIndex((prevIndex) => (index > 0 ? prevIndex - 1 : 0));
   }, [tabs]);
+
+  const confirmCloseTab = () => {
+    if (pendingTabIndex !== null) {
+      setTabs((prevTabs) => prevTabs.filter((_, i) => i !== pendingTabIndex));
+      setActiveIndex((prevIndex) => (pendingTabIndex > 0 ? prevIndex - 1 : 0));
+    }
+    setDialogOpen(false);
+  };
+
+  const cancelCloseTab = () => {
+    setDialogOpen(false);
+    setPendingTabIndex(null);
+  };
 
   const updateTabContent = (index: number, content: string) => {
     const updatedTabs = tabs.map((tab, i) =>
@@ -50,7 +89,7 @@ const EditorPage = () => {
 
     const updatedTabs = [...tabs];
     updatedTabs[index].filePath = filePath;
-    updatedTabs[index].title = filePath.split('/').pop()!;
+    updatedTabs[index].title = getFileName(filePath);
     setTabs(updatedTabs);
 
     return true;
@@ -80,7 +119,7 @@ const EditorPage = () => {
     if (filePath) {
       const result = await window.api.readFile(filePath);
       if (result.success) {
-        addTab(filePath.split('/').pop()!, result.content!, filePath);
+        addTab(getFileName(filePath), result.content!, filePath);
       } else {
         console.error(`Failed to read file: ${result.error}`);
       }
@@ -108,10 +147,18 @@ const EditorPage = () => {
     }
   };
 
+  useEffect(() => {
+    const activeTab = tabs[activeIndex];
+    const textArea = textAreaRefs.current.get(activeTab?.id);
+    if (textArea) {
+      requestAnimationFrame(() => textArea.focus());
+    }
+  }, [activeIndex, tabs]);
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <AppMenu handleMenuClick={handleMenuClick} />
-      <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
+      <AppMenu handleMenuClick={handleMenuClick} onToggleSpellCheck={setSpellCheckEnabled} />
+      <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1 p-2">
         <div className="flex items-center border-border">
           <div
             ref={tabListRef}
@@ -123,18 +170,17 @@ const EditorPage = () => {
                 <Tab
                   key={tab.id}
                   className={({ selected }) =>
-                    `flex-shrink-0 w-30 px-2 py-2 text-sm rounded-t ${
+                    `flex-shrink-0 w-36 px-2 py-2 text-sm rounded-t ${
                       selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                     }`
                   }
                 >
-                  <div className="flex items-center justify-between space-x-2">
-                    <span className="truncate max-w-[8rem]">
-                      {tab.title.length > 20
-                        ? `${tab.title.slice(0, 10)}...${tab.title.slice(-10)}`
-                        : tab.title}
-                      {!tab.isSaved && <span className="text-red-500 ml-1">●</span>}
-                    </span>
+                  <div
+                    className="flex items-center justify-between space-x-2"
+                    title={tab.filePath || tab.title}
+                  >
+                    <div className="truncate flex-1">{getFileName(tab.title)}</div>
+                    <div className="ml-1 text-red-500">{!tab.isSaved && '●'}</div>
                     <span
                       onClick={(e) => {
                         e.stopPropagation();
@@ -162,8 +208,10 @@ const EditorPage = () => {
               className="flex-1 flex flex-col bg-popover text-popover-foreground rounded"
             >
               <textarea
+                ref={(el) => el && textAreaRefs.current.set(tab.id, el)}
                 value={tab.content}
                 onChange={(e) => updateTabContent(index, e.target.value)}
+                spellCheck={spellCheckEnabled}
                 className="flex-1 w-full h-full border border-border rounded p-2 bg-card text-foreground resize-none focus:outline-none"
                 placeholder="Start typing here..."
               />
@@ -171,6 +219,13 @@ const EditorPage = () => {
           ))}
         </TabPanels>
       </TabGroup>
+
+      <ConfirmDialog
+        isOpen={dialogOpen}
+        message="You have unsaved changes. Do you want to close this tab without saving?"
+        onConfirm={confirmCloseTab}
+        onCancel={cancelCloseTab}
+      />
     </div>
   );
 };

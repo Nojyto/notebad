@@ -1,12 +1,14 @@
 import { Maximize2, Minus, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import SpellCheckToggleButton from './SpellCheckToggleButton';
 import ThemeToggleButton from './ThemeToggleButton';
 
 interface AppMenuProps {
   handleMenuClick: (menuItem: string) => void;
+  onToggleSpellCheck: (enabled: boolean) => void;
 }
 
-const AppMenu = ({ handleMenuClick }: AppMenuProps) => {
+const AppMenu = ({ handleMenuClick, onToggleSpellCheck }: AppMenuProps) => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const closeTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -28,7 +30,7 @@ const AppMenu = ({ handleMenuClick }: AppMenuProps) => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between px-2 py-1 bg-secondary text-secondary-foreground border-b border-border h-8 draggable mb-2">
+    <div className="flex items-center justify-between px-2 py-1 bg-secondary text-secondary-foreground border-b border-border h-8 draggable">
       <div className="flex items-center space-x-4">
         <div className="undraggable">
           <img src="/desktop-icon.png" alt="App Logo" className="w-6 h-6" draggable="false" />
@@ -64,6 +66,7 @@ const AppMenu = ({ handleMenuClick }: AppMenuProps) => {
       </div>
 
       <div className="flex space-x-2 items-center undraggable">
+        <SpellCheckToggleButton size="small" onToggleSpellCheck={onToggleSpellCheck} />
         <ThemeToggleButton size="small" />
 
         <button onClick={() => window.ipcRenderer.send('minimize')} className="w-5 h-5 p-1">

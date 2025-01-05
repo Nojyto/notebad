@@ -22,6 +22,7 @@ const ThemeToggleButton = ({ size = 'default' }: ThemeToggleButtonProps) => {
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={`p-1 bg-accent text-accent-foreground rounded-full hover:scale-105 transition-transform ${iconSize}`}
       aria-label="Toggle theme"
+      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
       {theme === 'dark' ? <Sun className="w-full h-full" /> : <Moon className="w-full h-full" />}
     </button>
