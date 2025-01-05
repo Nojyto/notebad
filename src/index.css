@@ -55,4 +55,21 @@
   h1, h2, h3, h4, h5 {
     @apply font-heading;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+    @apply h-1;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border;
+    @apply dark:bg-border;
+    @apply rounded-xl;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
+    @apply dark:bg-ring;
+  }
 }

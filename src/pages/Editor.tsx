@@ -101,18 +101,18 @@ const EditorPage = () => {
         </div>
       </div>
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
-        <div className="flex items-center border-b border-border">
+        <div className="flex items-center border-border">
           <div
             ref={tabListRef}
-            className="flex-1 overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+            className="flex-1 overflow-x-auto"
             onWheel={handleScroll}
           >
-            <TabList className="flex space-x-2 px-5">
+            <TabList className="flex space-x-2 focus:outline-none">
               {tabs.map((tab, index) => (
                 <Tab
                   key={tab.id}
                   className={({ selected }) =>
-                    `flex-shrink-0 w-36 px-2 py-2 text-sm rounded-t ${
+                    `flex-shrink-0 w-30 px-2 py-2 text-sm rounded-t ${
                       selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                     }`
                   }
@@ -148,7 +148,7 @@ const EditorPage = () => {
           {tabs.map((tab, index) => (
             <TabPanel
             key={tab.id}
-            className="flex-1 flex flex-col p-4 border border-border bg-popover text-popover-foreground rounded focus-within:ring-2 focus-within:ring-ring focus-within:border-ring"
+            className="flex-1 flex flex-col bg-popover text-popover-foreground rounded"
           >
             <textarea
               value={tab.content}
