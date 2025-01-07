@@ -55,6 +55,17 @@
   h1, h2, h3, h4, h5 {
     @apply font-heading;
   }
+  li {
+    @apply px-4;
+    @apply py-1;
+    @apply hover:bg-accent;
+    @apply cursor-pointer;
+  }
+
+  .tab_width {
+    width: 15dvw;
+    min-width: 100px;
+  }
 
   ::-webkit-scrollbar {
     @apply w-2;

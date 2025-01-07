@@ -170,13 +170,13 @@ const EditorPage = () => {
                 <Tab
                   key={tab.id}
                   className={({ selected }) =>
-                    `flex-shrink-0 w-36 px-2 py-2 text-sm rounded-t ${
+                    `flex-shrink-0 tab_width px-2 py-2 text-sm rounded-t ${
                       selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                     }`
                   }
                 >
                   <div
-                    className="flex items-center justify-between space-x-2"
+                    className="flex items-center justify-between"
                     title={tab.filePath || tab.title}
                   >
                     <div className="truncate flex-1">{getFileName(tab.title)}</div>

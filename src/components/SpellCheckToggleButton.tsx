@@ -1,5 +1,7 @@
-import { Check, X } from 'lucide-react';
+import { Check, SpellCheck2, X } from 'lucide-react';
 import { useState } from 'react';
+import { BsSpellcheck } from 'react-icons/bs';
+import { FaSpellCheck } from 'react-icons/fa';
 
 interface SpellCheckToggleButtonProps {
   size?: 'small' | 'default';
@@ -25,9 +27,9 @@ const SpellCheckToggleButton = ({ size = 'default', onToggleSpellCheck }: SpellC
       title={`Spellcheck ${spellCheckEnabled ? 'enabled' : 'disabled'}`}
     >
       {spellCheckEnabled ? (
-        <Check className="w-full h-full text-green-500" />
+        <SpellCheck2 className="w-full h-full text-green-500" />
       ) : (
-        <X className="w-full h-full text-red-500" />
+        <SpellCheck2 className="w-full h-full text-red-500" />
       )}
     </button>
   );

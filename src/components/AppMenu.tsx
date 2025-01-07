@@ -51,11 +51,13 @@ const AppMenu = ({ handleMenuClick, onToggleSpellCheck }: AppMenuProps) => {
                 <div className="absolute top-full left-0 bg-secondary text-secondary-foreground rounded shadow-lg z-50 w-40 pointer-events-auto">
                   {menu === 'File' && (
                     <ul className="py-1 text-sm">
-                      <li onClick={() => handleMenuClick('New File')} className="px-4 py-1 hover:bg-accent cursor-pointer">New File</li>
-                      <li onClick={() => handleMenuClick('Open File')} className="px-4 py-1 hover:bg-accent cursor-pointer">Open File</li>
-                      <li onClick={() => handleMenuClick('Save File')} className="px-4 py-1 hover:bg-accent cursor-pointer">Save File</li>
+                      <li onClick={() => handleMenuClick('New File')}>New File</li>
+                      <li onClick={() => handleMenuClick('Open File')}>Open File</li>
+                      <li onClick={() => handleMenuClick('Save File')}>Save File</li>
+                      <li onClick={() => handleMenuClick('Save File As')}>Save File As..</li>
+
                       <hr className="border-muted my-1" />
-                      <li onClick={() => handleMenuClick('Close Tab')} className="px-4 py-1 hover:bg-accent cursor-pointer">Close Tab</li>
+                      <li onClick={() => handleMenuClick('Close Tab')}>Close Tab</li>
                     </ul>
                   )}
                 </div>
