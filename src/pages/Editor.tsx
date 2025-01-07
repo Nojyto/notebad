@@ -170,7 +170,7 @@ const EditorPage = () => {
                 <Tab
                   key={tab.id}
                   className={({ selected }) =>
-                    `flex-shrink-0 tab_width px-2 py-2 text-sm rounded-t ${
+                    `flex-shrink-0 tab-width px-2 py-2 text-sm rounded-t ${
                       selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
                     }`
                   }

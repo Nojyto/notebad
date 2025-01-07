@@ -31,12 +31,9 @@ const AppMenu = ({ handleMenuClick, onToggleSpellCheck }: AppMenuProps) => {
 
   return (
     <div className="flex items-center justify-between px-2 py-1 bg-secondary text-secondary-foreground border-b border-border h-8 draggable">
-      <div className="flex items-center space-x-4">
-        <div className="undraggable">
-          <img src="/desktop-icon.png" alt="App Logo" className="w-6 h-6" draggable="false" />
-        </div>
-
-        <div className="flex space-x-2 undraggable">
+      <div className="flex items-center space-x-2 undraggable">
+        <img src="/desktop-icon.png" alt="App Logo" className="w-6 h-6" draggable="false" />
+        <div className="flex space-x-2">
           {['File'].map((menu) => (
             <div
               key={menu}
@@ -44,20 +41,20 @@ const AppMenu = ({ handleMenuClick, onToggleSpellCheck }: AppMenuProps) => {
               onMouseEnter={() => handleMenuHover(menu)}
               onMouseLeave={handleMenuLeave}
             >
-              <button className="text-[11px] font-medium hover:bg-accent rounded px-3 py-1">
+              <button className="text-[11px] font-medium hover:bg-accent rounded-md px-3 py-1">
                 {menu}
               </button>
               {activeMenu === menu && (
                 <div className="absolute top-full left-0 bg-secondary text-secondary-foreground rounded shadow-lg z-50 w-40 pointer-events-auto">
                   {menu === 'File' && (
                     <ul className="py-1 text-sm">
-                      <li onClick={() => handleMenuClick('New File')}>New File</li>
-                      <li onClick={() => handleMenuClick('Open File')}>Open File</li>
-                      <li onClick={() => handleMenuClick('Save File')}>Save File</li>
-                      <li onClick={() => handleMenuClick('Save File As')}>Save File As..</li>
+                      <li onClick={() => handleMenuClick('New File')} className="px-4 py-1 hover:bg-accent cursor-pointer">New File</li>
+                      <li onClick={() => handleMenuClick('Open File')} className="px-4 py-1 hover:bg-accent cursor-pointer">Open File</li>
+                      <li onClick={() => handleMenuClick('Save File')} className="px-4 py-1 hover:bg-accent cursor-pointer">Save File</li>
+                      <li onClick={() => handleMenuClick('Save File As')} className="px-4 py-1 hover:bg-accent cursor-pointer">Save File As..</li>
 
                       <hr className="border-muted my-1" />
-                      <li onClick={() => handleMenuClick('Close Tab')}>Close Tab</li>
+                      <li onClick={() => handleMenuClick('Close Tab')} className="px-4 py-1 hover:bg-accent cursor-pointer">Close Tab</li>
                     </ul>
                   )}
                 </div>

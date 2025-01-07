@@ -24,11 +24,7 @@ const SpellCheckToggleButton = ({ size = 'default', onToggleSpellCheck }: SpellC
       aria-label="Toggle Spellcheck"
       title={`Spellcheck ${spellCheckEnabled ? 'enabled' : 'disabled'}`}
     >
-      {spellCheckEnabled ? (
-        <SpellCheck2 className="w-full h-full text-green-500" />
-      ) : (
-        <SpellCheck2 className="w-full h-full text-red-500" />
-      )}
+      <SpellCheck2 className={`w-full h-full ${spellCheckEnabled ? 'text-green-500' : 'text-red-500'}`} />
     </button>
   );
 };
