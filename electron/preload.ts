@@ -24,4 +24,6 @@ contextBridge.exposeInMainWorld('api', {
   saveFile: (filePath: string, content: string) => ipcRenderer.invoke('save-file', { filePath, content }),
   openFile: () => ipcRenderer.invoke('show-open-dialog').then((result) => result.success ? result.filePath : null),
   createNewFile: () => ipcRenderer.invoke('create-new-file').then((result) => result.success ? result.filePath : null),
+  loadState: () => ipcRenderer.invoke('load-state'),
+  saveState: (state: JSON) => ipcRenderer.invoke('save-state', state),
 });
