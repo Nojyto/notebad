@@ -134,6 +134,23 @@ export const useEditorState = () => {
     }
   }, [tabs, promptSaveAs]);
 
+  const saveAsTab = useCallback(async (index: number) => {
+    const tab = tabs[index];
+    const response: { success: boolean; filePath?: string; error?: string } = await window.api.saveAs(tab.content);
+
+    if (response.success && response.filePath) {
+      setState((prevState) => {
+        const updatedTabs = [...prevState.tabs];
+        updatedTabs[index].filePath = response.filePath;
+        updatedTabs[index].title = getFileName(response.filePath!);
+        updatedTabs[index].isSaved = true;
+        return { ...prevState, tabs: updatedTabs };
+      });
+    } else {
+      console.error(`Failed to save file as: ${response.error}`);
+    }
+  }, [tabs]);
+
   const openFile = async () => {
     const filePath = await window.api.openFile();
     if (filePath) {
@@ -172,6 +189,7 @@ export const useEditorState = () => {
     setActiveIndex: (index: number) => setState((prevState) => ({ ...prevState, activeIndex: index })),
     addTab,
     closeTab,
+    saveAsTab,
     confirmCloseTab,
     cancelCloseTab,
     updateTabContent,

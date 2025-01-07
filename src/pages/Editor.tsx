@@ -16,6 +16,7 @@ const EditorPage = () => {
     setActiveIndex,
     addTab,
     closeTab,
+    saveAsTab,
     confirmCloseTab,
     cancelCloseTab,
     updateTabContent,
@@ -34,6 +35,9 @@ const EditorPage = () => {
         break;
       case 'Save File':
         saveTab(activeIndex);
+        break;
+      case 'Save File As':
+        saveAsTab(activeIndex);
         break;
       case 'Close Tab':
         closeTab(activeIndex);
@@ -65,7 +69,7 @@ const EditorPage = () => {
                 >
                   <div className="flex items-center justify-between" title={tab.filePath || tab.title}>
                     <div className="truncate flex-1">{tab.title}</div>
-                    <div className="ml-1 text-red-500">{!tab.isSaved && '●'}</div>
+                    <div className="mx-1 text-red-500">{!tab.isSaved && '●'}</div>
                     <span
                       onClick={(e) => {
                         e.stopPropagation();

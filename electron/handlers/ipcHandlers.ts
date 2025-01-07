@@ -1,7 +1,7 @@
-import { BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import fs from 'fs/promises';
 import path from 'node:path';
-import { saveAppState, loadAppState } from './stateManager';
+import { loadAppState, saveAppState } from './stateManager';
 
 export function registerIpcHandlers(win: BrowserWindow | null) {
   ipcMain.on('minimize', () => {
@@ -41,7 +41,7 @@ export function registerIpcHandlers(win: BrowserWindow | null) {
   ipcMain.handle('create-new-file', async () => {
     const { canceled, filePath } = await dialog.showSaveDialog({
       title: 'Create New File',
-      defaultPath: path.join(__dirname, 'untitled.txt'),
+      defaultPath: path.join(app.getPath('downloads'), 'untitled.txt'),
       buttonLabel: 'Create',
     });
     if (canceled || !filePath) return { success: false, error: 'File creation canceled' };
@@ -57,6 +57,22 @@ export function registerIpcHandlers(win: BrowserWindow | null) {
   ipcMain.handle('show-open-dialog', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({ properties: ['openFile'] });
     return canceled || filePaths.length === 0 ? { success: false, error: 'File open canceled' } : { success: true, filePath: filePaths[0] };
+  });
+
+  ipcMain.handle('show-save-as-dialog', async (_, content: string) => {
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: 'Save File As',
+      defaultPath: path.join(app.getPath('downloads'), 'untitled.txt'),
+      buttonLabel: 'Save As',
+    });
+    if (canceled || !filePath) return { success: false, error: 'Save As operation canceled' };
+
+    try {
+      await fs.writeFile(filePath, content, 'utf-8');
+      return { success: true, filePath };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
   });
   
   ipcMain.handle('save-state', async (_, state) => {

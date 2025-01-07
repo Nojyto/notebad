@@ -31,4 +31,7 @@ interface Api {
   saveFile: (filePath: string, content: string) => Promise<{ success: boolean; error?: string }>;
   openFile: () => Promise<string | null>;
   createNewFile: () => Promise<string | null>;
+  saveAs: (content: string) => Promise<{ success: boolean; content?: string; error?: string }>;
+  loadState: () => Promise<JSON>;
+  saveState: (state: JSON) => Promise<void>;
 }
