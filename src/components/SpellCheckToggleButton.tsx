@@ -1,7 +1,5 @@
-import { Check, SpellCheck2, X } from 'lucide-react';
+import { SpellCheck2 } from 'lucide-react';
 import { useState } from 'react';
-import { BsSpellcheck } from 'react-icons/bs';
-import { FaSpellCheck } from 'react-icons/fa';
 
 interface SpellCheckToggleButtonProps {
   size?: 'small' | 'default';
