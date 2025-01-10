@@ -54,16 +54,16 @@ const EditorPage = () => {
         spellCheckEnabled={spellCheckEnabled}
         onToggleSpellCheck={() => setSpellCheckEnabled(!spellCheckEnabled)}
       />
-      <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1 p-2">
-        <div className="flex items-center border-border">
+      <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
+        <div className="flex items-center border-border px-1">
           <div ref={tabListRef} className="flex-1 overflow-x-auto" onWheel={handleScroll}>
-            <TabList className="flex space-x-2 focus:outline-none">
+            <TabList className="flex space-x-2 focus:outline-none pt-1">
               {tabs.map((tab: TabData, index: number) => (
                 <Tab
                   key={tab.id}
                   className={({ selected }) =>
                     `flex-shrink-0 tab-width px-2 py-2 text-sm rounded-t ${
-                      selected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                      selected ? 'bg-primary text-primary-foreground hover:bg-destructive' : 'bg-secondary text-secondary-foreground hover:bg-muted'
                     }`
                   }
                 >
@@ -75,7 +75,7 @@ const EditorPage = () => {
                         e.stopPropagation();
                         closeTab(index);
                       }}
-                      className="text-destructive cursor-pointer"
+                      className="text-destructive cursor-pointer hover:text-destructive-foreground"
                       role="button"
                       aria-label="Close Tab"
                     >
@@ -86,19 +86,19 @@ const EditorPage = () => {
               ))}
             </TabList>
           </div>
-          <button onClick={() => addTab()} className="w-8 h-8 ml-2 bg-accent text-accent-foreground rounded-full flex items-center justify-center">
+          <button onClick={() => addTab()} className="w-8 h-8 ml-2 bg-accent text-accent-foreground rounded-xl flex items-center justify-center text-justify hover:bg-destructive">
             +
           </button>
         </div>
         <TabPanels className="flex-1 flex flex-col h-full">
           {tabs.map((tab: TabData, index: number) => (
-            <TabPanel key={tab.id} className="flex-1 flex flex-col bg-popover text-popover-foreground rounded">
+            <TabPanel key={tab.id} className="flex-1 flex flex-col bg-popover text-popover-foreground">
               <textarea
                 ref={(el) => el && textAreaRefs.current.set(tab.id, el)}
                 value={tab.content}
                 onChange={(e) => updateTabContent(index, e.target.value)}
                 spellCheck={spellCheckEnabled}
-                className="flex-1 w-full h-full border border-border rounded p-2 bg-card text-foreground resize-none focus:outline-none"
+                className="flex-1 w-full h-full border border-b-0 border-l-0 border-r-0 border-border rounded-b-xl p-2 bg-card text-foreground resize-none focus:outline-none"
                 placeholder="Start typing here..."
               />
             </TabPanel>

@@ -1,5 +1,6 @@
 import { Maximize2, Minus, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import BrandIcon from "../assets/desktop-icon.svg";
 import SpellCheckToggleButton from './SpellCheckToggleButton';
 import ThemeToggleButton from './ThemeToggleButton';
 
@@ -33,7 +34,7 @@ const AppMenu = ({ handleMenuClick, spellCheckEnabled, onToggleSpellCheck }: App
   return (
     <div className="flex items-center justify-between px-2 py-1 bg-secondary text-secondary-foreground border-b border-border h-8 draggable">
       <div className="flex items-center space-x-2 undraggable">
-        <img src="/desktop-icon.png" alt="App Logo" className="w-6 h-6" draggable="false" />
+        <img src={BrandIcon} alt="App Logo" className="w-auto h-6 mx-auto" draggable="false" />
         <div className="flex space-x-2">
           {['File'].map((menu) => (
             <div
@@ -42,7 +43,7 @@ const AppMenu = ({ handleMenuClick, spellCheckEnabled, onToggleSpellCheck }: App
               onMouseEnter={() => handleMenuHover(menu)}
               onMouseLeave={handleMenuLeave}
             >
-              <button className="text-[11px] font-medium hover:bg-accent rounded-md px-3 py-1">
+              <button className="text-[11px] font-medium hover:bg-accent rounded-md px-2 py-1">
                 {menu}
               </button>
               {activeMenu === menu && (

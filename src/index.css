@@ -69,10 +69,6 @@
     @apply text-foreground;
     @apply border;
     @apply dark:border;
-    @apply rounded-lg;
-  }
-  input:focus, textarea:focus {
-    @apply ring;
   }
 
   ::-webkit-scrollbar {

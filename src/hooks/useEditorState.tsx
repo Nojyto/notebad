@@ -9,7 +9,7 @@ export const useEditorState = () => {
   const loadInitialState = () => {
     const savedState = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (savedState) {
-      console.log('Loaded state from localStorage:', JSON.parse(savedState));
+      // console.log('Loaded state from localStorage:', JSON.parse(savedState));
       const { tabs, activeIndex, spellCheckEnabled } = JSON.parse(savedState);
       return {
         tabs,
@@ -168,7 +168,7 @@ export const useEditorState = () => {
   useEditorShortcuts({ saveTab, closeTab, activeIndex });
 
   useEffect(() => {
-    console.log('Saving state to localStorage:', state);
+    // console.log('Saving state to localStorage:', state);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
