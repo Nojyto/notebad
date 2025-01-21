@@ -21,6 +21,7 @@ function createWindow(initialState: JSON) {
     icon: path.join(process.env.VITE_PUBLIC, 'desktop-icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      devTools: VITE_DEV_SERVER_URL ? true : false,
     },
     frame: false,
     focusable: true,
