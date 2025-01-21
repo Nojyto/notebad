@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AppMenu from '../components/AppMenu';
 import ConfirmDialog from '../components/ConfirmDialog';
 import SearchBar from '../components/SearchBar';
+import StatusBar from '../components/StatusBar';
 import { useEditorShortcuts } from '../hooks/useEditorShortcuts';
 import { useEditorState } from '../hooks/useEditorState';
 import { TabData } from '../types/types';
@@ -29,6 +30,7 @@ const EditorPage = () => {
   } = useEditorState();
 
   const [isSearchVisible, setSearchVisible] = useState(false);
+  const [selectionStart, setSelectionStart] = useState(0);
 
   const highlightMatch = (index: number, length: number) => {
     const textArea = textAreaRefs.current.get(tabs[activeIndex]?.id);
@@ -45,7 +47,7 @@ const EditorPage = () => {
   };
 
   useEditorShortcuts({ saveTab, closeTab, activeIndex, setSearchVisible });
-  
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <AppMenu
@@ -119,13 +121,23 @@ const EditorPage = () => {
                 onHighlight={highlightMatch}
                 onClose={() => setSearchVisible(false)}
               />
+
               <textarea
                 ref={(el) => el && textAreaRefs.current.set(tab.id, el)}
                 value={tab.content}
                 onChange={(e) => updateTabContent(index, e.target.value)}
+                onSelect={(e) => {
+                  const textArea = e.target as HTMLTextAreaElement;
+                  setSelectionStart(textArea.selectionStart);
+                }}
                 spellCheck={spellCheckEnabled}
                 className="flex-1 w-full h-full border border-b-0 border-l-0 border-r-0 border-border rounded-b-xl p-2 bg-card text-foreground resize-none focus:outline-none whitespace-nowrap"
                 placeholder="Start typing here..."
+              />
+
+              <StatusBar
+                content={tab.content}
+                selectionStart={selectionStart}
               />
             </TabPanel>
           ))}
