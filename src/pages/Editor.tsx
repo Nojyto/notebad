@@ -1,6 +1,9 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import { useState } from 'react';
 import AppMenu from '../components/AppMenu';
 import ConfirmDialog from '../components/ConfirmDialog';
+import SearchBar from '../components/SearchBar';
+import { useEditorShortcuts } from '../hooks/useEditorShortcuts';
 import { useEditorState } from '../hooks/useEditorState';
 import { TabData } from '../types/types';
 
@@ -25,38 +28,55 @@ const EditorPage = () => {
     setSpellCheckEnabled,
   } = useEditorState();
 
-  const handleMenuClick = (menuItem: string) => {
-    switch (menuItem) {
-      case 'New File':
-        addTab();
-        break;
-      case 'Open File':
-        openFile();
-        break;
-      case 'Save File':
-        saveTab(activeIndex);
-        break;
-      case 'Save File As':
-        saveAsTab(activeIndex);
-        break;
-      case 'Close Tab':
-        closeTab(activeIndex);
-        break;
-      default:
-        console.error(`Unknown menu item: ${menuItem}`);
+  const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const highlightMatch = (index: number, length: number) => {
+    const textArea = textAreaRefs.current.get(tabs[activeIndex]?.id);
+    if (textArea && index >= 0) {
+      textArea.focus();
+      textArea.setSelectionRange(index, index + length);
+
+      const startLine = textArea.value.substring(0, index).split('\n').length - 1;
+      const lineHeight = parseFloat(getComputedStyle(textArea).lineHeight || '20px');
+      const scrollPosition = startLine * lineHeight - textArea.clientHeight / 2;
+
+      textArea.scrollTop = Math.max(scrollPosition, 0);
     }
   };
 
+  useEditorShortcuts({ saveTab, closeTab, activeIndex, setSearchVisible });
+  
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <AppMenu
-        handleMenuClick={handleMenuClick}
+        handleMenuClick={(menuItem) => {
+          switch (menuItem) {
+            case 'New File':
+              addTab();
+              break;
+            case 'Open File':
+              openFile();
+              break;
+            case 'Save File':
+              saveTab(activeIndex);
+              break;
+            case 'Save File As':
+              saveAsTab(activeIndex);
+              break;
+            case 'Close Tab':
+              closeTab(activeIndex);
+              break;
+            default:
+              console.error(`Unknown menu item: ${menuItem}`);
+          }
+        }}
         spellCheckEnabled={spellCheckEnabled}
         onToggleSpellCheck={() => setSpellCheckEnabled(!spellCheckEnabled)}
       />
+
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
         <div className="flex items-center border-border px-1">
-          <div ref={tabListRef} className="flex-1 overflow-x-auto" onWheel={handleScroll}>
+          <div ref={tabListRef} className="flex-1 overflow-x-auto scrollbar-small" onWheel={handleScroll}>
             <TabList className="flex space-x-2 focus:outline-none pt-1">
               {tabs.map((tab: TabData, index: number) => (
                 <Tab
@@ -92,13 +112,19 @@ const EditorPage = () => {
         </div>
         <TabPanels className="flex-1 flex flex-col h-full">
           {tabs.map((tab: TabData, index: number) => (
-            <TabPanel key={tab.id} className="flex-1 flex flex-col bg-popover text-popover-foreground">
+            <TabPanel key={tab.id} className="relative flex-1 flex flex-col bg-popover text-popover-foreground">
+              <SearchBar
+                isVisible={isSearchVisible}
+                content={tab.content}
+                onHighlight={highlightMatch}
+                onClose={() => setSearchVisible(false)}
+              />
               <textarea
                 ref={(el) => el && textAreaRefs.current.set(tab.id, el)}
                 value={tab.content}
                 onChange={(e) => updateTabContent(index, e.target.value)}
                 spellCheck={spellCheckEnabled}
-                className="flex-1 w-full h-full border border-b-0 border-l-0 border-r-0 border-border rounded-b-xl p-2 bg-card text-foreground resize-none focus:outline-none"
+                className="flex-1 w-full h-full border border-b-0 border-l-0 border-r-0 border-border rounded-b-xl p-2 bg-card text-foreground resize-none focus:outline-none whitespace-nowrap"
                 placeholder="Start typing here..."
               />
             </TabPanel>

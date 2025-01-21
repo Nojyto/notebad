@@ -4,9 +4,10 @@ interface EditorShortcutsProps {
   saveTab: (index: number) => void;
   closeTab: (index: number) => void;
   activeIndex: number;
+  setSearchVisible: (isVisible: boolean) => void;
 }
 
-export const useEditorShortcuts = ({ saveTab, closeTab, activeIndex }: EditorShortcutsProps) => {
+export const useEditorShortcuts = ({ saveTab, closeTab, activeIndex, setSearchVisible }: EditorShortcutsProps) => {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
@@ -17,9 +18,16 @@ export const useEditorShortcuts = ({ saveTab, closeTab, activeIndex }: EditorSho
         e.preventDefault();
         closeTab(activeIndex);
       }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        setSearchVisible(true);
+        setTimeout(() => {
+          (document.querySelector('#search') as HTMLInputElement)?.focus();
+        }, 0);
+      }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [activeIndex, saveTab, closeTab]);
+  }, [activeIndex, saveTab, closeTab, setSearchVisible]);
 };

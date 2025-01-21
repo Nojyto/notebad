@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { TabData } from '../types/types';
 import { getFileName } from '../utils/utils';
-import { useEditorShortcuts } from './useEditorShortcuts';
 
 const LOCAL_STORAGE_KEY = 'editorState';
 
@@ -164,8 +163,6 @@ export const useEditorState = () => {
       console.warn('File open canceled');
     }
   };
-
-  useEditorShortcuts({ saveTab, closeTab, activeIndex });
 
   useEffect(() => {
     // console.log('Saving state to localStorage:', state);

@@ -73,7 +73,8 @@
 
   ::-webkit-scrollbar {
     @apply w-2;
-    @apply h-1;
+    @apply h-2;
+    @apply cursor-pointer;
   }
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
@@ -87,6 +88,20 @@
     @apply bg-muted-foreground;
     @apply dark:bg-ring;
   }
+  ::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  ::selection {
+    @apply text-foreground;
+    @apply bg-destructive;
+  }
+}
+
+
+.scrollbar-small::-webkit-scrollbar {
+  @apply w-0.5;
+  @apply h-0.5;
 }
 
 .draggable {
