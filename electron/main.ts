@@ -24,6 +24,8 @@ function createWindow(initialState: JSON) {
     },
     frame: false,
     focusable: true,
+    minWidth: 400,
+    minHeight: 300,
   });
 
   registerIpcHandlers(win);
