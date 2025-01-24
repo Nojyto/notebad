@@ -16,11 +16,11 @@
     "target": [
       "dmg"
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "${productName}-Mac-${version}.${ext}"
   },
   "win": {
     "target": ["portable", "msi"],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "${productName}-Win-${version}.${ext}"
   },
   "nsis": {
     "oneClick": false,
