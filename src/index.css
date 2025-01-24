@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Noto%20Znamenny%20Musical%20Notation:700|Noto%20Znamenny%20Musical%20Notation:400');
+@import url('https://fonts.googleapis.com/css?family=Noto%20Znamenny%20Musical%20Notation:700|Noto%20Znamenny%20Musical%20Notation:400|Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -115,4 +115,10 @@
   width: 15dvw;
   min-width: 100px;
   max-width: 150px;
+}
+
+textarea {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.2;
 }
