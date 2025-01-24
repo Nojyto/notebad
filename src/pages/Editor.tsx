@@ -119,6 +119,7 @@ const EditorPage = () => {
                 isVisible={isSearchVisible}
                 content={tab.content}
                 onHighlight={highlightMatch}
+                onContentReplace={(updatedContent) => { updateTabContent(activeIndex, updatedContent); }}
                 onClose={() => setSearchVisible(false)}
               />
 
