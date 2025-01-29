@@ -116,26 +116,26 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search..."
-          className="w-32 px-1 py-0.5 border border-border rounded text-xs"
+          className="w-32 ml-1 px-1 py-0.5 border border-border focus:outline-none rounded-md text-xs"
         />
-        <span className="text-xs">{currentMatchIndex !== null ? `${currentMatchIndex + 1}/${matchIndices.length}` : '0/0'}</span>
+        <span className="text-xs pl-1" >{currentMatchIndex !== null ? `${currentMatchIndex + 1}/${matchIndices.length}` : '0/0'}</span>
         <button
           onClick={() => navigateToMatch('prev')}
-          className="p-1 text-secondary-foreground hover:text-primary bg-secondary rounded"
+          className=" text-secondary-foreground hover:text-primary bg-secondary rounded"
           aria-label="Previous Match"
         >
           <ChevronLeft size={16} />
         </button>
         <button
           onClick={() => navigateToMatch('next')}
-          className="p-1 text-secondary-foreground hover:text-primary bg-secondary rounded"
+          className=" text-secondary-foreground hover:text-primary bg-secondary rounded"
           aria-label="Next Match"
         >
           <ChevronRight size={16} />
         </button>
         <button
           onClick={() => setShowReplace(!showReplace)}
-          className={`p-1 text-secondary-foreground hover:text-primary bg-secondary rounded transition-transform ${showReplace ? 'rotate-180' : ''
+          className={`text-secondary-foreground hover:text-primary bg-secondary rounded transition-transform ${showReplace ? 'rotate-180' : ''
             }`}
           aria-label="Show Replace"
         >
@@ -143,7 +143,7 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
         </button>
         <button
           onClick={onClose}
-          className="p-1 text-destructive hover:text-destructive-foreground bg-secondary rounded"
+          className="p-0.5 text-destructive hover:text-destructive-foreground bg-secondary rounded"
           aria-label="Close Search"
         >
           ✕
@@ -157,7 +157,7 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
             value={replaceText}
             onChange={(e) => setReplaceText(e.target.value)}
             placeholder="Replace with..."
-            className="w-32 px-1 py-0.5 border border-border rounded text-xs"
+            className="ml-1 w-32 px-1 py-0.5 mb-1 border border-border rounded-md text-xs"
           />
           <button
             onClick={replaceCurrentMatch}

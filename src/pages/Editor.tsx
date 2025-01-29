@@ -79,34 +79,50 @@ const EditorPage = () => {
       <TabGroup selectedIndex={activeIndex} onChange={setActiveIndex} className="flex flex-col flex-1">
         <div className="flex items-center border-border px-1">
           <div ref={tabListRef} className="flex-1 overflow-x-auto scrollbar-small" onWheel={handleScroll}>
-            <TabList className="flex space-x-2 focus:outline-none pt-1">
-              {tabs.map((tab: TabData, index: number) => (
-                <Tab
-                  key={tab.id}
-                  className={({ selected }) =>
-                    `flex-shrink-0 tab-width px-2 py-2 text-sm rounded-t ${
-                      selected ? 'bg-primary text-primary-foreground hover:bg-destructive' : 'bg-secondary text-secondary-foreground hover:bg-muted'
-                    }`
-                  }
-                >
-                  <div className="flex items-center justify-between" title={tab.filePath || tab.title}>
+          <TabList className="flex space-x-2 focus:outline-none pt-1">
+            {tabs.map((tab: TabData, index: number) => (
+              <Tab
+                key={tab.id}
+                className={({ selected }) =>
+                  `flex-shrink-0 tab-width px-2 py-2 text-sm rounded-t focus:outline-none ${
+                    selected
+                      ? "bg-primary text-primary-foreground hover:bg-destructive"
+                      : "bg-secondary text-secondary-foreground hover:bg-muted"
+                  }`
+                }
+              >
+                {({ selected }) => (
+                  <div
+                    className="flex items-center justify-between"
+                    title={tab.filePath || tab.title}
+                  >
                     <div className="truncate flex-1">{tab.title}</div>
-                    <div className="mx-1 text-red-500">{!tab.isSaved && '●'}</div>
+                    <div className={`mx-1 pb-0.5  ${
+                        selected
+                          ? "text-red-200"
+                          : "text-red-500"
+                      }`}
+                     >{!tab.isSaved && "●"}</div>
                     <span
                       onClick={(e) => {
                         e.stopPropagation();
                         closeTab(index);
                       }}
-                      className="text-destructive cursor-pointer hover:text-destructive-foreground"
+                      className={` ${
+                        selected
+                          ? "text-red-200 hover:text-red-600"
+                          : "text-red-500 hover:text-red-700"
+                      }`}
                       role="button"
                       aria-label="Close Tab"
                     >
                       ✕
                     </span>
                   </div>
-                </Tab>
-              ))}
-            </TabList>
+                )}
+              </Tab>
+            ))}
+          </TabList>
           </div>
           <button onClick={() => addTab()} className="w-8 h-8 ml-2 bg-accent text-accent-foreground rounded-xl flex items-center justify-center text-justify hover:bg-destructive">
             +
