@@ -1,5 +1,11 @@
-import { ChevronDown, ChevronLeft, ChevronRight, Replace, ReplaceAll } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Replace,
+  ReplaceAll,
+} from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 interface SearchBarProps {
   isVisible: boolean;
@@ -9,11 +15,21 @@ interface SearchBarProps {
   onClose: () => void;
 }
 
-const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => { }, onClose }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
-  const [replaceText, setReplaceText] = useState('');
-  const [matchIndices, setMatchIndices] = useState<{ index: number; length: number }[]>([]);
-  const [currentMatchIndex, setCurrentMatchIndex] = useState<number | null>(null);
+const SearchBar = ({
+  isVisible,
+  content,
+  onHighlight,
+  onContentReplace = () => {},
+  onClose,
+}: SearchBarProps) => {
+  const [query, setQuery] = useState("");
+  const [replaceText, setReplaceText] = useState("");
+  const [matchIndices, setMatchIndices] = useState<
+    { index: number; length: number }[]
+  >([]);
+  const [currentMatchIndex, setCurrentMatchIndex] = useState<number | null>(
+    null
+  );
   const [showReplace, setShowReplace] = useState(false);
 
   const handleSearch = useCallback(() => {
@@ -24,7 +40,7 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
     }
 
     const indices: { index: number; length: number }[] = [];
-    const regex = new RegExp(query, 'gi');
+    const regex = new RegExp(query, "gi");
     let match;
     while ((match = regex.exec(content)) !== null) {
       indices.push({ index: match.index, length: match[0].length });
@@ -53,18 +69,18 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
     return () => clearTimeout(timer);
   }, [handleSearch, query]);
 
-  const navigateToMatch = (direction: 'next' | 'prev') => {
+  const navigateToMatch = (direction: "next" | "prev") => {
     if (matchIndices.length === 0) return;
 
     setCurrentMatchIndex((prevIndex) => {
       const newIndex =
-        direction === 'next'
+        direction === "next"
           ? prevIndex === null
             ? 0
             : (prevIndex + 1) % matchIndices.length
           : prevIndex === null
-            ? matchIndices.length - 1
-            : (prevIndex - 1 + matchIndices.length) % matchIndices.length;
+          ? matchIndices.length - 1
+          : (prevIndex - 1 + matchIndices.length) % matchIndices.length;
 
       const { index, length } = matchIndices[newIndex];
       onHighlight(index, length);
@@ -87,19 +103,19 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
   const replaceAllMatches = () => {
     if (!query.trim()) return;
 
-    const regex = new RegExp(query, 'gi');
+    const regex = new RegExp(query, "gi");
     const updatedContent = content.replace(regex, replaceText);
     onContentReplace(updatedContent);
-    setQuery('');
-    setReplaceText('');
+    setQuery("");
+    setReplaceText("");
     setMatchIndices([]);
     setCurrentMatchIndex(null);
   };
 
   useEffect(() => {
     if (!isVisible) {
-      setQuery('');
-      setReplaceText('');
+      setQuery("");
+      setReplaceText("");
       setMatchIndices([]);
       setCurrentMatchIndex(null);
     }
@@ -116,34 +132,39 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search..."
-          className="w-32 px-1 py-0.5 border border-border rounded text-xs"
+          className="w-32 ml-1 px-1 py-0.5 border border-border focus:outline-none rounded-md text-xs"
         />
-        <span className="text-xs">{currentMatchIndex !== null ? `${currentMatchIndex + 1}/${matchIndices.length}` : '0/0'}</span>
+        <span className="text-xs pl-1">
+          {currentMatchIndex !== null
+            ? `${currentMatchIndex + 1}/${matchIndices.length}`
+            : "0/0"}
+        </span>
         <button
-          onClick={() => navigateToMatch('prev')}
-          className="p-1 text-secondary-foreground hover:text-primary bg-secondary rounded"
+          onClick={() => navigateToMatch("prev")}
+          className="text-secondary-foreground hover:text-primary bg-secondary rounded"
           aria-label="Previous Match"
         >
           <ChevronLeft size={16} />
         </button>
         <button
-          onClick={() => navigateToMatch('next')}
-          className="p-1 text-secondary-foreground hover:text-primary bg-secondary rounded"
+          onClick={() => navigateToMatch("next")}
+          className="text-secondary-foreground hover:text-primary bg-secondary rounded"
           aria-label="Next Match"
         >
           <ChevronRight size={16} />
         </button>
         <button
           onClick={() => setShowReplace(!showReplace)}
-          className={`p-1 text-secondary-foreground hover:text-primary bg-secondary rounded transition-transform ${showReplace ? 'rotate-180' : ''
-            }`}
+          className={`text-secondary-foreground hover:text-primary bg-secondary rounded transition-transform ${
+            showReplace ? "rotate-180" : ""
+          }`}
           aria-label="Show Replace"
         >
           <ChevronDown size={16} />
         </button>
         <button
           onClick={onClose}
-          className="p-1 text-destructive hover:text-destructive-foreground bg-secondary rounded"
+          className="p-0.5 text-destructive hover:text-destructive-foreground bg-secondary rounded"
           aria-label="Close Search"
         >
           ✕
@@ -157,7 +178,7 @@ const SearchBar = ({ isVisible, content, onHighlight, onContentReplace = () => {
             value={replaceText}
             onChange={(e) => setReplaceText(e.target.value)}
             placeholder="Replace with..."
-            className="w-32 px-1 py-0.5 border border-border rounded text-xs"
+            className="ml-1 w-32 px-1 py-0.5 mb-1 border border-border rounded-md text-xs"
           />
           <button
             onClick={replaceCurrentMatch}
